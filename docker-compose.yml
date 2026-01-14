@@ -1,0 +1,21 @@
+name: lug
+
+services:
+  db-postgres:
+    # https://hub.docker.com/_/postgres
+    image: "postgres:${PSQL_VERSION:-17}-alpine"
+    ports:
+      - "5400:5432"
+    restart: "on-failure"
+    shm_size: 256mb
+    environment:
+      POSTGRES_PASSWORD: "${PSQL_PASSWORD:-rootpass}"
+      POSTGRES_USER: "${PSQL_USER:-rootuser}"
+      POSTGRES_DB: "${PSQL_DB:-postgres}"
+      POSTGRES_INITDB_ARGS: "--auth=${PSQL_AUTH_METHOD:-trust}"
+      PGDATA: "/var/lib/postgresql/data"
+    volumes:
+      - "vol-postgres:/var/lib/postgresql/data"
+
+volumes:
+  vol-postgres:

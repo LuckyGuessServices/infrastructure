@@ -14,13 +14,27 @@ The project consists of services of these types:
 
 ## Date and time
 
-1. When working with times (records in DB, logs, current time, etc.), a time zone must be considered.
+When working with times (records in DB, logs, current time, etc.)...
+
+1. Forbid reading time from DBMS functions, sequences, etc.
+
+   In most cases the time is mocked in auto-tests written in programming languages, but not in any DBMS.
+   So only auto-tests' code should calculate dates and times. Examples:
+    * All date and time fields any database's table must be `NOT NULL`,
+      the fields' default values must be set in testing code.
+    * Queries like `... created_at < NOW() - INTERVAL ...` must be rewritten in the form like `... created_at < ?`,
+      i. e. any date or time related value must be binded as a parameter value set in testing code.
+1. Time zones must be considered.
     1. Services' time zone must be set to UTC. All data must be kept in UTC (+00:00).
 
        Use `Etc/UTC` or just `UTC` time zone identifier.
-    1. Apply a time zone depending on a context:
-        * If data is geographically bound to a time zone (aircraft landing in a particular airport, a package is
-          delivered to a client located in a particular city, a sun rise in a particular region), store time in
-          databases with the region-related time zone applied.
-        * Otherwise (an article is created, a user is updated, etc.), store time in UTC 0 in key services. Then apply
-          a user-related local time zone correction, when formatting data in an interface service.
+    1. Apply different time zones depending on contexts:
+        1. If data is geographically bound to a time zone, store time in databases with the region-related time zone
+           applied.
+
+           Examples: aircraft landing in a particular airport, a package is delivered to a client located in
+           a particular city, a sun rise in a particular region.
+        1. Otherwise, store time in UTC in key services. Then apply a user-related local time zone correction,
+           when formatting data in an interface service.
+
+           Examples: an article is created, a user is updated.
