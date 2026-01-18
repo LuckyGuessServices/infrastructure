@@ -6,16 +6,18 @@
 
 ## MVP
 
-1. Init a planets' data service `lug-planets`.
-   Create and API server with a couple of methods. Support at least one planet, utilize at least one external API,
-   cover all developed logic with autotests (DB-supported).
+1. Create MVP for `planets` data service.
+    * Create and API server with a couple of methods. Support at least one planet.
+    * Utilize at least one external API.
+    * Cover all developed logic with autotests (DB-supported).
+1. Create MVP for `calendar`, working calendar data service.
+   * Create and API server with a couple of methods. Support at least day types (weekend, short, holiday).
+   * Utilize at least one external API.
+   * Cover all developed logic with autotests (DB-supported).
 1. Init a backend interface service `lug-backend`.
-   Add an API client for `lug-planets` (support all currently existing methods), add console scripts acting as
-   a kind of an interface (utilizing all currently existing methods).
-1. Init a working calendar service `lug-calendar`.
-   Create and API server with a couple of methods (utilizing an external API is optional), cover all developed logic
-   with autotests (DB-supported).
-1. Make `lug-backend` request data from `lug-planets` and `lug-calendar` within a single foreground script launch.
+    * Add an API client for `planets` and `calendar` (support all currently existing methods).
+    * Add console scripts acting as an interface (utilizing all currently existing methods).
+    * Request all internal services' data via APIs in parallel during a single foreground script launch.
 
 ## Misc features
 
@@ -27,7 +29,7 @@
 * High load testing.
 * "Mutations" autotests.
 * Code static analyzers and code style fixers.
-* Replace HTTP server caching mechanism with a dedicated RAM database.
+* Add a dedicated RAM database.
 * User time zones support: apply time formatting depending on a user time zone (auto or manually specified).
 * I18N (at least, `ru_RU` and `en_US`).
-* New service: weather data. Start with a single country. Or start with Luna phases.
+* Add a new service: weather data. Start with a single country. Or start with Luna phases.

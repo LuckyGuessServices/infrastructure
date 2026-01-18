@@ -2,6 +2,7 @@
 
 scriptDirectory=$(dirname $(readlink -f $0))
 composeCmdPrefix=(docker compose --file "$scriptDirectory/docker-compose.yml")
+source ./.env
 
 echo -e "== 1. Stop and remove containers, networks: =="
 
@@ -18,7 +19,7 @@ echo -e "##########\n"
 echo -e "== 3. Init 'planets' service databases and users: =="
 
 psqlContainerName="db-postgres"
-psqlAuthCmdPart=(--username="rootuser" --dbname="postgres")
+psqlAuthCmdPart=(--username="${PSQL_ROOT_USER_NAME}" --dbname="${PSQL_ROOT_DB}")
 psqlCmdPrefix=(${composeCmdPrefix[@]} exec $psqlContainerName psql ${psqlAuthCmdPart[@]})
 
 # Firstly, ensure PostgreSQL is ready to accept commands:
@@ -31,11 +32,8 @@ timeElapsedSeconds=$(awk "BEGIN {printf \"%.3f\", $timeElpasedNano/1000000000}")
 echo "Postgres became ready for commands in: $timeElapsedSeconds seconds."
 
 # Finally execute the commands:
-"${psqlCmdPrefix[@]}" --command="CREATE USER planets_user WITH ENCRYPTED PASSWORD 'planets_pass';" \
-&& "${psqlCmdPrefix[@]}" --command="CREATE DATABASE planets OWNER planets_user;" \
-&& "${psqlCmdPrefix[@]}" --command="GRANT ALL PRIVILEGES ON DATABASE planets TO planets_user;" \
+"${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_MAIN_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_MAIN_USER_PASS}';" \
+&& "${psqlCmdPrefix[@]}" --command="CREATE DATABASE \"${PSQL_MAIN_DB}\" OWNER \"${PSQL_MAIN_USER_NAME}\";" \
 \
-&& "${psqlCmdPrefix[@]}" --command="CREATE USER planets_test_user WITH ENCRYPTED PASSWORD 'planets_test_pass';" \
-&& "${psqlCmdPrefix[@]}" --command="CREATE DATABASE planets_test OWNER planets_test_user;" \
-&& "${psqlCmdPrefix[@]}" --command="GRANT ALL PRIVILEGES ON DATABASE planets_test TO planets_test_user;"
+&& "${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_TEST_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_TEST_USER_PASS}';"
 echo -e "##########\n"
