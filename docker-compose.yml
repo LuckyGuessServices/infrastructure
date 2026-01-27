@@ -6,7 +6,7 @@ services:
     image: "postgres:${PSQL_VERSION}-alpine"
     ports:
       - "5400:5432"
-    restart: "on-failure"
+    restart: "unless-stopped"
     shm_size: 256mb
     environment:
       POSTGRES_PASSWORD: "${PSQL_ROOT_USER_PASS}"

@@ -37,3 +37,7 @@ echo "Postgres became ready for commands in: $timeElapsedSeconds seconds."
 \
 && "${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_TEST_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_TEST_USER_PASS}';"
 echo -e "##########\n"
+
+echo -e "== 4. Install / Update go tools: =="
+source ./cli/install-go-tools.sh
+echo -e "##########\n"
