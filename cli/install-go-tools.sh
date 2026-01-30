@@ -2,10 +2,8 @@
 
 # Install / Update go tools:
 
-go install -n golang.org/x/vuln/cmd/govulncheck@latest
-go install -n github.com/Antonboom/testifylint@latest
-# See https://github.com/mvdan/gofumpt?tab=readme-ov-file#installation
-go install -n mvdan.cc/gofumpt@latest
+curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.8.0
+go install golang.org/x/vuln/cmd/govulncheck@latest
 
 cat <<TEXT
 
@@ -15,11 +13,13 @@ goch() {
     local targetDirectory="\${1:-.}"
 
     (
-        cd "\$targetDirectory";
-        go mod tidy;
-        govulncheck -test ./...;
-        testifylint --enable-all ./...;
-        go vet ./...;
+        cd "$targetDirectory"
+
+        go mod tidy
+        govulncheck -test ./...
+
+        golangci-lint fmt
+        golangci-lint run --fix
     )
 }
 TEXT
