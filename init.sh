@@ -32,8 +32,8 @@ timeElapsedSeconds=$(awk "BEGIN {printf \"%.3f\", $timeElpasedNano/1000000000}")
 echo "Postgres became ready for commands in: $timeElapsedSeconds seconds."
 
 # Finally execute the commands:
-"${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_MAIN_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_MAIN_USER_PASS}';" \
-&& "${psqlCmdPrefix[@]}" --command="CREATE DATABASE \"${PSQL_MAIN_DB}\" OWNER \"${PSQL_MAIN_USER_NAME}\";" \
+"${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_CORE_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_CORE_USER_PASS}';" \
+&& "${psqlCmdPrefix[@]}" --command="CREATE DATABASE \"${PSQL_CORE_DB}\" OWNER \"${PSQL_CORE_USER_NAME}\";" \
 \
-&& "${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_TEST_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_TEST_USER_PASS}';"
+&& "${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_CORE_TEST_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_CORE_TEST_USER_PASS}';"
 echo -e "##########\n"
