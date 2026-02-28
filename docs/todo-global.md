@@ -23,11 +23,12 @@
 ## Misc features
 
 * Create an authorization service.
-   Support normal and admin users, control the list of services a user can access. Init authorization via `backend`.
-   All other services must somehow analyze requests, if those are made by authorized users with proper access.
+    * Support normal and admin users, control the list of services a user can access. Init authorization via `backend`.
+    * All other services must somehow analyze requests, if those are made by authorized users with proper access.
 * Profiling (time and memory): autotests, queries to databases, external API responses, etc. ...,
   and (as "the rest") internal code execution.
-* High load testing. Create a service taht will generate lots of work for any other microservice in the project.
+* High load testing. Create a service that will generate lots of work for any other microservice in the project.
+    * Cover key services with metrics to reflect the load. 
 * "Mutations" autotests.
 * Code static analyzers and code style fixers.
 * RAM database for caching.
