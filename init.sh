@@ -16,7 +16,7 @@ echo -e "== 2. Create and start containers: =="
 
 echo -e "##########\n"
 
-echo -e "== 3. Init 'planets' service databases and users: =="
+echo -e "== 3. Init 'planets' service storage: =="
 
 psqlContainerName="db-postgres"
 psqlAuthCmdPart=(--username="${PSQL_ROOT_USER_NAME}" --dbname="${PSQL_ROOT_DB}")
@@ -31,7 +31,7 @@ timeElpasedNano=$(($(date +%s%N) - timeStart))
 timeElapsedSeconds=$(awk "BEGIN {printf \"%.3f\", $timeElpasedNano/1000000000}")
 echo "Postgres became ready for commands in: $timeElapsedSeconds seconds."
 
-# Finally execute the commands:
+# Finally, create users and databases:
 "${psqlCmdPrefix[@]}" --command="CREATE USER \"${PSQL_CORE_USER_NAME}\" WITH ENCRYPTED PASSWORD '${PSQL_CORE_USER_PASS}';" \
 && "${psqlCmdPrefix[@]}" --command="CREATE DATABASE \"${PSQL_CORE_DB}\" OWNER \"${PSQL_CORE_USER_NAME}\";" \
 \

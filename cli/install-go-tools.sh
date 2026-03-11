@@ -2,7 +2,9 @@
 
 # Install / Update go tools:
 
-curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.9.0
+# See https://golangci-lint.run/docs/welcome/install/local/
+curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.11.3
+
 go install golang.org/x/vuln/cmd/govulncheck@latest
 
 cat <<TEXT
